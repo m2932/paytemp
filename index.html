@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="./app.js"></script>
+    
+    <title>PayTemp</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+ 
+    <!-- style.css -->
+    <link rel="stylesheet" href="css/style.css">
+ 
+    <!-- Optional JavaScript -->
+    <script src="./js/jquery-3.4.1.slim.min.js"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="./js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        .ispayed-checked {
+            opacity: 0.5;
+        }
+    </style>
+
+    <script>
+            // この記述を追記
+            if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                     .register('/service-worker.js') // ここはservice-worker.jsのパスを指定
+                     .then(function() { console.log('Service Worker Registered'); });
+            }
+            // この記述を追記　ここまで
+        </script>
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <nav class="navbar sticky-top navbar-light bg-light">
+        <a class="navbar-brand" href="#">PayTemp</a>
+        <div id="total_value">0</div>
+    </nav>
+
+    <div class="jumbotron">
+    <ul class="list-group list-group-flush" id="payList">
+    </ul>
+    <p>
+        <button class="btn btn-primary btn-lg"  onclick="checkAllIsPayed();">All Done</button>
+    </p>
+    </div>
+    <script>init();</script>
+</body>
+</html>
+</html>
