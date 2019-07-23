@@ -4,8 +4,13 @@
     "start_url": "/index.html",
     "display": "standalone",
     "icons": [{
-      "src": "images/icon.png",
+      "src": "images/icon128.png",
       "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "images/icon144.png",
+      "sizes": "144x144",
       "type": "image/png"
     }]
   }
