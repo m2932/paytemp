@@ -43,11 +43,13 @@
     </nav>
 
     <div class="jumbotron">
-    <ul class="list-group list-group-flush" id="payList">
-    </ul>
-    <p>
-        <button class="btn btn-primary btn-lg"  onclick="checkAllIsPayed();">All Done</button>
-    </p>
+        <ul class="list-group list-group-flush" id="payList">
+        </ul>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-secondary" onclick="checkAllIsPayed()">ALL Done</button>
+            <button type="button" class="btn btn-secondary" onclick="switchAppearPayed()">Switch Appearance of Payed Item</button>
+            <button type="button" class="btn btn-secondary" onclick="deleteAllPayed()">Delete All Payed Item</button>
+        </div>
     </div>
     <script>init();</script>
 </body>
