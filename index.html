@@ -23,6 +23,9 @@
         .ispayed-checked {
             opacity: 0.5;
         }
+        .font-small {
+            font-size: 0.7rem;
+    }
     </style>
 
     <script>
@@ -42,13 +45,13 @@
         <div id="total_value">0</div>
     </nav>
 
-    <div class="jumbotron">
+    <div class="container">
         <ul class="list-group list-group-flush" id="payList">
         </ul>
         <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-secondary" onclick="checkAllIsPayed()">ALL Done</button>
-            <button type="button" class="btn btn-secondary" onclick="switchAppearPayed()">Switch Appearance of Payed Item</button>
-            <button type="button" class="btn btn-secondary" onclick="deleteAllPayed()">Delete All Payed Item</button>
+            <button type="button" class="btn btn-secondary" onclick="checkAllIsPayed()">Done All</button>
+            <button type="button" class="btn btn-secondary" onclick="switchAppearPayed()">Only Still</button>
+            <button type="button" class="btn btn-secondary" onclick="deleteAllPayed()">Delete All</button>
         </div>
     </div>
     <script>init();</script>

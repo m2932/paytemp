@@ -7,32 +7,53 @@ const init = () => {
 };
 
 const savePayItem = (id, item) => {
+    item["value"] = parseInt(item["value"]);
     localStorage.setItem(id, JSON.stringify(item));
 };
 
+const toDateString = (date) => {
+    const pad = (number) => {
+        if (number < 10) {
+            return '0' + number;
+        }
+        return number;
+    };
+    return `${date.getFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}`;
+};
+
 const loadAllPayItem = (id) => {
-    payList = {};
-    for(let i = 0; i < localStorage.length; i++) {
-        const id = localStorage.key(i);
-        payList[id] = JSON.parse(localStorage.getItem(id));
-    }    
+    payList = [];
+    for(const id in localStorage) {
+        if (localStorage.hasOwnProperty(id)) {
+            payList[id] = JSON.parse(localStorage.getItem(id));
+            payList[id]["value"] = parseInt(payList[id]["value"]); 
+            if(payList[id]["date"] == null) {
+                const date = new Date(parseInt(id));
+                payList[id]["date"] = date.toISOString().substr(0, 10);
+            }               
+        }
+    }
+    // payList.sort((a, b) => {
+    //     return 1;
+    // });
 };
 
 const addNewItem = () => {
     const id = Date.now().toString();
+    const date = document.getElementById("new_date").value;
     const item = document.getElementById("new_item").value;
-    const value = parseInt(document.getElementById("new_value").value, 10);
-    savePayItem(id, {"item": item, "value": value, "isPayed": ""});
-    viewPayList();
-    sumPaytempValue();
+    const value = document.getElementById("new_value").value;
+    savePayItem(id, {"date": date, "item": item, "value": value, "isPayed": ""});
+    init();
 };
 
 const newItemHtml = `
     <li class="list-group-item">
         <div class="form-row align-items-center">
-            <div class="col-7"><input type="text" class="form-control" id="new_item" placeholder="item"></div>
-            <div class="col-3"><input type="number" class="form-control" id="new_value" placeholder="price"></div>
-            <div class="col-1"><button class="btn btn-primary rounded-circle p-0 form-control" style="width:2rem;height:2rem;" onclick="addNewItem();">+</button></div>
+            <input type="date" class="form-control form-control-sm col-4 font-small" id="new_date" placeholder="date">
+            <input type="text" class="form-control form-control-sm col-4 font-small" id="new_item" placeholder="item">
+            <input type="number" class="form-control form-control-sm col-3 font-small" id="new_value" placeholder="price">
+            <div class="col-1"><button class="btn btn-primary rounded-circle p-0 form-control form-control-sm" style="width:1.7rem;height:1.7rem;" onclick="addNewItem();">+</button></div>
         </div>
     </li>
 `;
@@ -40,16 +61,17 @@ const newItemHtml = `
 const viewPayList = () => {
     loadAllPayItem();
     let liList = [ ];
-    for(const id in payList) {
+    for(const id in payList.sort()) {
         if(!appearPayed && payList[id]["isPayed"] == "checked"){ continue; }
         
         const itemStr = `
         <li class="list-group-item">
             <div class="form-row align-items-center ispayed-${payList[id]["isPayed"]}" id="${id}_line">
-                <div class="col-1 form-check form-check-inline"><input type="checkbox" class="form-control form-check-input" id="${id}_isPayed" ${payList[id]["isPayed"]} onchange="switchIsPayed(${id});"></div>
-                <div class="col-6"><input type="text" class="form-control" id="${id}_item" value="${payList[id]["item"]}" oninput="edit(${id}, 'item')";></div>
-                <div class="col-3"><input type="number" class="form-control" id="${id}_value" value="${payList[id]["value"]}" oninput="edit(${id}, 'value')";></div>
-                <div class="col-1"><button class="btn btn-secondary rounded-circle p-0" style="width:2rem;height:2rem;" onclick="deleteItem(${id}); init();">-</button></div>
+                <div class="col-1 form-check"><input type="checkbox" class="form-control form-control-sm form-check-input position-static" id="${id}_isPayed" ${payList[id]["isPayed"]} onchange="switchIsPayed(${id});"></div>
+                <input type="date" class="form-control form-control-sm col-4 font-small" id="${id}_date" value="${payList[id]["date"]}" onchange="edit(${id}, 'date')";>
+                <input type="text" class="form-control form-control-sm col-4 font-small" id="${id}_item" value="${payList[id]["item"]}" oninput="edit(${id}, 'item')";>
+                <input type="number" class="form-control form-control-sm col-2 font-small" id="${id}_value" value="${payList[id]["value"]}" oninput="edit(${id}, 'value')";>
+                <div class="col-1"><button class="btn btn-secondary rounded-circle p-0" style="width:1.7rem;height:1.7rem;" onclick="deleteItem(${id}); init();">-</button></div>
             </div>
         </li>
         `;
