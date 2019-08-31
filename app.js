@@ -11,16 +11,6 @@ const savePayItem = (id, item) => {
     localStorage.setItem(id, JSON.stringify(item));
 };
 
-const toDateString = (date) => {
-    const pad = (number) => {
-        if (number < 10) {
-            return '0' + number;
-        }
-        return number;
-    };
-    return `${date.getFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}`;
-};
-
 const loadAllPayItem = (id) => {
     payList = [];
     for(const id in localStorage) {
