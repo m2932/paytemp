@@ -8,18 +8,33 @@ const STATIC_DATA = [
     './js/bootstrap.bundle.min.js.map',
     './js/jquery-3.4.1.slim.min.js',
     './app.js'
-  ];
+];
+
+const CACHE_NAME = 'cache_v2';
   
 self.addEventListener('install', function(e) {
     e.waitUntil(
-        caches.open('cache_v2').then(function(cache) {
+        caches.open(CACHE_NAME).then(function(cache) {
         return cache.addAll(STATIC_DATA);
         })
     );
 });
 
 self.addEventListener('activate', function(e) {
-    console.log('[ServiceWorker] Activate');
+    const cacheWhitelist = [CACHE_NAME];
+
+    e.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((cacheName) => {
+                    // ホワイトリストにないキャッシュ(古いキャッシュ)は削除する
+                    if (cacheWhitelist.indexOf(cacheName) === -1) {
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        })
+    );
 });
 
 self.addEventListener('fetch', function(event) {
