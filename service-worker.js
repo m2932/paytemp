@@ -10,7 +10,7 @@ const STATIC_DATA = [
     './app.js'
 ];
 
-const CACHE_NAME = 'cache_v2';
+const CACHE_NAME = 'cache_v2.1';
   
 self.addEventListener('install', function(e) {
     e.waitUntil(
