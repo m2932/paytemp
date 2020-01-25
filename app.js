@@ -1,5 +1,5 @@
 let payList;
-let appearPayed = true;
+let appearPayed = false;
 
 const init = () => {
     viewPayList();
@@ -48,10 +48,31 @@ const newItemHtml = `
     </li>
 `;
 
+const sort_rule = (a, b) => {
+    const former = new Date(a.date);
+    const later = new Date(b.date);
+    return former - later;
+};
+
+const sortPayListID = () => {
+    const id_list = Object.keys(payList);
+    const date_list = [];
+    for(const id in payList) {
+        date_list.push({"id": id, "date": payList[id]["date"]});
+    }
+    const sorted = date_list.sort(sort_rule);
+
+    const result = [];
+    for (const data of sorted) {
+        result.push(data["id"]);
+    }
+    return result;
+} 
+
 const viewPayList = () => {
     loadAllPayItem();
     let liList = [ ];
-    for(const id in payList.sort()) {
+    for(const id of sortPayListID()) {
         if(!appearPayed && payList[id]["isPayed"] == "checked"){ continue; }
         
         const itemStr = `
